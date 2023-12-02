@@ -105,6 +105,13 @@ public class Drivetrain extends SubsystemBase {
     SmartDashboard.putString("Pose", getPose().toString());
     SmartDashboard.putString("Angular Speed", new DecimalFormat("#.00").format((rates[2] / 180)) + "pi rad/s");
 
+    //new values
+    SmartDashboard.putNumber("Left Front Module Velocity", leftFront.getDriveMotorVelocity());
+    SmartDashboard.putNumber("Right Front Module Velocity", rightFront.getDriveMotorVelocity());
+    SmartDashboard.putNumber("Left Back Module Velocity", leftBack.getDriveMotorVelocity());
+    SmartDashboard.putNumber("Right Back Module Velocity", rightBack.getDriveMotorVelocity());
+  
+
     Logger.getInstance().recordOutput("Drivetrain/Robot Angle", getHeadingRotation2d().getRadians());
     Logger.getInstance().recordOutput("Drivetrain/Pose", getPose());
     Logger.getInstance().recordOutput("Drivetrain/Angular Speed", rates[2] / 180);

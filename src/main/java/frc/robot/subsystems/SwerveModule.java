@@ -31,7 +31,6 @@ public class SwerveModule extends SubsystemBase {
 
   private boolean absoluteEncoderReversed;
   private double absoluteEncoderOffset;
-
   private Rotation2d lastAngle;
 
   /** Creates a new SwerveModule. */
@@ -126,7 +125,11 @@ public class SwerveModule extends SubsystemBase {
   }
 
   public void setSpeed(SwerveModuleState desiredState){
-    driveMotor.set(desiredState.speedMetersPerSecond / SwerveConstants.DRIVETRAIN_MAX_SPEED);
+    double speed =  desiredState.speedMetersPerSecond;
+    if(speed>SwerveConstants.DRIVETRAIN_MAX_SPEED){
+      speed = SwerveConstants.DRIVETRAIN_MAX_SPEED;
+    }
+    driveMotor.set(speed); //desiredState.speedMetersPerSecond / SwerveConstants.DRIVETRAIN_MAX_SPEED    original parameter, changed for debugging purposes #KP 12/2
 
     // driveController.setReference(
     //   desiredState.speedMetersPerSecond,
