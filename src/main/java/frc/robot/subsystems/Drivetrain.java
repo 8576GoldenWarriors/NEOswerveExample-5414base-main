@@ -121,14 +121,14 @@ public class Drivetrain extends SubsystemBase {
   public void swerveDrive(double frontSpeed, double sideSpeed, double turnSpeed, 
     boolean fieldOriented, Translation2d centerOfRotation, boolean deadband){ //Drive with rotational speed control w/ joystick
     if(deadband){
-      frontSpeed = Math.abs(frontSpeed) > 0.1 ? frontSpeed : 0;
-      sideSpeed = Math.abs(sideSpeed) > 0.1 ? sideSpeed : 0;
-      turnSpeed = Math.abs(turnSpeed) > 0.1 ? turnSpeed : 0;
+      frontSpeed = Math.abs(frontSpeed) > 0.15 ? frontSpeed : 0;
+      sideSpeed = Math.abs(sideSpeed) > 0.15 ? sideSpeed : 0;
+      turnSpeed = Math.abs(turnSpeed) > 0.15 ? turnSpeed : 0;
     }
 
-    frontSpeed = RobotContainer.driverController.getRightTriggerAxis() > 0.5 ? frontSpeed * 0.20 : frontSpeed;
-    sideSpeed = RobotContainer.driverController.getRightTriggerAxis() > 0.5 ? sideSpeed * 0.20 : sideSpeed;
-    turnSpeed = RobotContainer.driverController.getRightTriggerAxis() > 0.5 ? turnSpeed * 0.20 : turnSpeed;
+    frontSpeed = RobotContainer.driverController.getRightTriggerAxis() > 0.5 ? frontSpeed * 0.35 : frontSpeed;
+    sideSpeed = RobotContainer.driverController.getRightTriggerAxis() > 0.5 ? sideSpeed * 0.35 : sideSpeed;
+    turnSpeed = RobotContainer.driverController.getRightTriggerAxis() > 0.5 ? turnSpeed * 0.35 : turnSpeed;
 
     frontSpeed = frontLimiter.calculate(frontSpeed) * SwerveConstants.TELE_DRIVE_MAX_SPEED;
     sideSpeed = sideLimiter.calculate(sideSpeed) * SwerveConstants.TELE_DRIVE_MAX_SPEED;
@@ -136,7 +136,7 @@ public class Drivetrain extends SubsystemBase {
 
     ChassisSpeeds chassisSpeeds;
     if(fieldOriented){
-      chassisSpeeds = ChassisSpeeds.fromFieldRelativeSpeeds(frontSpeed, sideSpeed, turnSpeed, getHeadingRotation2d());
+      chassisSpeeds = ChassisSpeeds.fromFieldRelativeSpeeds(frontSpeed, -sideSpeed, turnSpeed, getHeadingRotation2d());
     }
     else{
       chassisSpeeds = new ChassisSpeeds(frontSpeed, sideSpeed, turnSpeed);
@@ -194,6 +194,12 @@ public class Drivetrain extends SubsystemBase {
 
     //check everything below is correct; instantiation of field or robot orineted driving
     if(fieldOriented){
+      if (getHeading() > -45 && getHeading() < 45){
+        sideSpeed = -sideSpeed;
+      }
+      if (getHeading() > 235 && getHeading() < 135){
+        sideSpeed = -sideSpeed;
+      }
       chassisSpeeds = ChassisSpeeds.fromFieldRelativeSpeeds(frontSpeed, sideSpeed, turnSpeed, getHeadingRotation2d());
     }
     else{
@@ -271,7 +277,7 @@ public class Drivetrain extends SubsystemBase {
   }
 
   public double getHeading(){
-    return Math.IEEEremainder(gyro.getYaw(), 360); //clamp heading between -180 and 180
+    return Math.IEEEremainder(-gyro.getYaw(), 360); //clamp heading between -180 and 180
   }
 
   public Rotation2d getHeadingRotation2d(){

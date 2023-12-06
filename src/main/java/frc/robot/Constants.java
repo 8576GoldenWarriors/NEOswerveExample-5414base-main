@@ -60,14 +60,14 @@ public final class Constants {
     public static final double TURN_MOTOR_VCONVERSION = TURN_MOTOR_PCONVERSION / 60.0;
     public static final double KP_TURNING = 0.5;
 
-    public static final double DRIVETRAIN_MAX_SPEED = 4.0;
-    public static final double DRIVETRAIN_MAX_ANGULAR_SPEED = 3.5 * Math.PI;
+    public static final double DRIVETRAIN_MAX_SPEED = 2.0; //4.0
+    public static final double DRIVETRAIN_MAX_ANGULAR_SPEED = 2.5 * Math.PI; //3.5
 
     //Teleop constraints
     public static final double TELE_DRIVE_MAX_SPEED = DRIVETRAIN_MAX_SPEED / 1;
     public static final double TELE_DRIVE_MAX_ANGULAR_SPEED = DRIVETRAIN_MAX_ANGULAR_SPEED / 1.75;
-    public static final double TELE_DRIVE_MAX_ACCELERATION = 3;
-    public static final double TELE_DRIVE_MAX_ANGULAR_ACCELERATION = 3;
+    public static final double TELE_DRIVE_MAX_ACCELERATION = 2; //3
+    public static final double TELE_DRIVE_MAX_ANGULAR_ACCELERATION = 2; //3
 
     //Auton constraints
     public static final double AUTO_DRIVE_MAX_SPEED = DRIVETRAIN_MAX_SPEED / 1.5;
