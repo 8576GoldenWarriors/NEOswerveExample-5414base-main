@@ -127,7 +127,7 @@ public class Drivetrain extends SubsystemBase {
     }
 
     frontSpeed = RobotContainer.driverController.getRightTriggerAxis() > 0.5 ? frontSpeed * 0.35 : frontSpeed;
-    sideSpeed = RobotContainer.driverController.getRightTriggerAxis() > 0.5 ? sideSpeed * 0.35 : sideSpeed;
+    sideSpeed = RobotContainer.driverController.getRightTriggerAxis() > 0.5 ? -sideSpeed * 0.35 : -sideSpeed;
     turnSpeed = RobotContainer.driverController.getRightTriggerAxis() > 0.5 ? turnSpeed * 0.35 : turnSpeed;
 
     frontSpeed = frontLimiter.calculate(frontSpeed) * SwerveConstants.TELE_DRIVE_MAX_SPEED;
@@ -149,6 +149,7 @@ public class Drivetrain extends SubsystemBase {
 
   public void swerveDrive(double frontSpeed, double sideSpeed, double turnX, double turnY, 
     boolean fieldOriented, Translation2d centerOfRotation, boolean deadbandX, boolean deadbandY, boolean deadbandTurn){ //Drive with rotational heading control w/ joystick
+    //System.out.println(getHeading());
     if(deadbandX){
       frontSpeed = Math.abs(frontSpeed) > 0.1 ? frontSpeed : 0;
     }
@@ -277,7 +278,7 @@ public class Drivetrain extends SubsystemBase {
   }
 
   public double getHeading(){
-    return Math.IEEEremainder(-gyro.getYaw(), 360); //clamp heading between -180 and 180
+    return -Math.IEEEremainder(gyro.getYaw(), 360); //clamp heading between -180 and 180
   }
 
   public Rotation2d getHeadingRotation2d(){
