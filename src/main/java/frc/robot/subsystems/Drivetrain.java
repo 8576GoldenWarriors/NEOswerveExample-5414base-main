@@ -126,9 +126,9 @@ public class Drivetrain extends SubsystemBase {
       turnSpeed = Math.abs(turnSpeed) > 0.15 ? turnSpeed : 0;
     }
 
-    frontSpeed = RobotContainer.driverController.getRightTriggerAxis() > 0.5 ? frontSpeed * 0.35 : frontSpeed;
-    sideSpeed = RobotContainer.driverController.getRightTriggerAxis() > 0.5 ? -sideSpeed * 0.35 : -sideSpeed;
-    turnSpeed = RobotContainer.driverController.getRightTriggerAxis() > 0.5 ? turnSpeed * 0.35 : turnSpeed;
+    frontSpeed = RobotContainer.driverController.getRightTriggerAxis() > 0.35 ? frontSpeed * 0.30 : frontSpeed;
+    sideSpeed = RobotContainer.driverController.getRightTriggerAxis() > 0.35 ? -sideSpeed * 0.30 : -sideSpeed;
+    turnSpeed = RobotContainer.driverController.getRightTriggerAxis() > 0.35 ? turnSpeed * 0.30 : turnSpeed;
 
     frontSpeed = frontLimiter.calculate(frontSpeed) * SwerveConstants.TELE_DRIVE_MAX_SPEED;
     sideSpeed = sideLimiter.calculate(sideSpeed) * SwerveConstants.TELE_DRIVE_MAX_SPEED;
@@ -184,7 +184,7 @@ public class Drivetrain extends SubsystemBase {
     }
 
     frontSpeed = RobotContainer.driverController.getLeftTriggerAxis() > 0.5 ? frontSpeed * 0.20 : frontSpeed;
-    sideSpeed = RobotContainer.driverController.getLeftTriggerAxis() > 0.5 ? sideSpeed * 0.20 : sideSpeed;
+    sideSpeed = RobotContainer.driverController.getLeftTriggerAxis() > 0.5 ? -sideSpeed * 0.20 : -sideSpeed;
     turnSpeed = RobotContainer.driverController.getLeftTriggerAxis() > 0.5 ? turnSpeed * 0.20 : turnSpeed;
 
     frontSpeed = frontLimiter.calculate(frontSpeed) * SwerveConstants.TELE_DRIVE_MAX_SPEED;

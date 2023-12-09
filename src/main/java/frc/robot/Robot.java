@@ -118,6 +118,9 @@ public class Robot extends LoggedRobot {
     if (RobotContainer.driverController.getAButton()){
       RobotContainer.drivetrain.zeroHeading();
     }
+    if (RobotContainer.driverController.getXButton()){
+      RobotContainer.drivetrain.setXMode();
+    }
   }
 
   @Override
