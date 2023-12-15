@@ -105,6 +105,7 @@ public class Robot extends LoggedRobot {
   /** This function is called periodically during operator control. */
   @Override
   public void teleopPeriodic() {
+    //int count = 1;
     // if(RobotContainer.arm.isDeployed() ? 
     //     (RobotContainer.intake.isDeployed() || RobotContainer.bigStick.isDeployed()) : 
     //     (RobotContainer.intake.isDeployed() && RobotContainer.bigStick.isDeployed())){
@@ -118,9 +119,15 @@ public class Robot extends LoggedRobot {
     if (RobotContainer.driverController.getAButton()){
       RobotContainer.drivetrain.zeroHeading();
     }
-    if (RobotContainer.driverController.getXButton()){
+    /*if (RobotContainer.driverController.getXButton()){
+      count++;
+    }
+    if (count % 2 == 0){
       RobotContainer.drivetrain.setXMode();
     }
+    else{
+      RobotContainer.drivetrain.setNormalMode();
+    }*/
   }
 
   @Override

@@ -8,6 +8,7 @@ import java.text.DecimalFormat;
 
 import org.littletonrobotics.junction.Logger;
 
+import com.ctre.phoenix.sensors.Pigeon2;
 //import com.ctre.phoenix.sensors.Pigeon2; OLD GYRO IMPORT
 import com.kauailabs.navx.frc.AHRS;
 
@@ -20,7 +21,6 @@ import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
-import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.RobotContainer;
@@ -67,7 +67,9 @@ public class Drivetrain extends SubsystemBase {
   private SlewRateLimiter sideLimiter = new SlewRateLimiter(SwerveConstants.TELE_DRIVE_MAX_ACCELERATION);
   private SlewRateLimiter turnLimiter = new SlewRateLimiter(SwerveConstants.TELE_DRIVE_MAX_ANGULAR_ACCELERATION);
 
-  private AHRS gyro = new AHRS(SPI.Port.kMXP);
+  //private AHRS gyro = new AHRS(SPI.Port.kMXP);
+
+  private Pigeon2 gyro = new Pigeon2(SwerveConstants.PIGEON_ID);
   private double rates[] = new double[3];
 
   private enum DriveMode{
@@ -98,7 +100,7 @@ public class Drivetrain extends SubsystemBase {
     // This method will be called once per scheduler run
     RobotContainer.poseEstimator.updateOdometry(getHeadingRotation2d(), getModulePositions());
 
-    //gyro.getRawGyro(rates);
+    gyro.getRawGyro(rates);
     SmartDashboard.putNumber("Robot Angle", getHeading());
     SmartDashboard.putNumber("Robot Pitch", getPitch());
     SmartDashboard.putNumber("Robot Roll", getRoll());
@@ -126,9 +128,9 @@ public class Drivetrain extends SubsystemBase {
       turnSpeed = Math.abs(turnSpeed) > 0.15 ? turnSpeed : 0;
     }
 
-    frontSpeed = RobotContainer.driverController.getRightTriggerAxis() > 0.35 ? frontSpeed * 0.30 : frontSpeed;
-    sideSpeed = RobotContainer.driverController.getRightTriggerAxis() > 0.35 ? -sideSpeed * 0.30 : -sideSpeed;
-    turnSpeed = RobotContainer.driverController.getRightTriggerAxis() > 0.35 ? turnSpeed * 0.30 : turnSpeed;
+    frontSpeed = RobotContainer.driverController.getRightTriggerAxis() > 0.25 ? frontSpeed * 0.30 : frontSpeed;
+    sideSpeed = RobotContainer.driverController.getRightTriggerAxis() > 0.25 ? sideSpeed * 0.30 : sideSpeed;
+    turnSpeed = RobotContainer.driverController.getRightTriggerAxis() > 0.35 ? turnSpeed * 0.20 : turnSpeed;
 
     frontSpeed = frontLimiter.calculate(frontSpeed) * SwerveConstants.TELE_DRIVE_MAX_SPEED;
     sideSpeed = sideLimiter.calculate(sideSpeed) * SwerveConstants.TELE_DRIVE_MAX_SPEED;
@@ -136,7 +138,7 @@ public class Drivetrain extends SubsystemBase {
 
     ChassisSpeeds chassisSpeeds;
     if(fieldOriented){
-      chassisSpeeds = ChassisSpeeds.fromFieldRelativeSpeeds(frontSpeed, -sideSpeed, turnSpeed, getHeadingRotation2d());
+      chassisSpeeds = ChassisSpeeds.fromFieldRelativeSpeeds(frontSpeed, sideSpeed, turnSpeed, getHeadingRotation2d());
     }
     else{
       chassisSpeeds = new ChassisSpeeds(frontSpeed, sideSpeed, turnSpeed);
@@ -187,9 +189,12 @@ public class Drivetrain extends SubsystemBase {
     sideSpeed = RobotContainer.driverController.getLeftTriggerAxis() > 0.5 ? -sideSpeed * 0.20 : -sideSpeed;
     turnSpeed = RobotContainer.driverController.getLeftTriggerAxis() > 0.5 ? turnSpeed * 0.20 : turnSpeed;
 
+    frontSpeed *= abs(frontSpeed);
+    sideSpeed *= abs(sideSpeed);
+
     frontSpeed = frontLimiter.calculate(frontSpeed) * SwerveConstants.TELE_DRIVE_MAX_SPEED;
     sideSpeed = sideLimiter.calculate(sideSpeed) * SwerveConstants.TELE_DRIVE_MAX_SPEED;
-    turnSpeed = turnLimiter.calculate(turnSpeed) * SwerveConstants.TELE_DRIVE_MAX_ANGULAR_SPEED;
+    turnSpeed = (turnLimiter.calculate(turnSpeed) * SwerveConstants.TELE_DRIVE_MAX_ANGULAR_SPEED);
 
     ChassisSpeeds chassisSpeeds;
 
@@ -210,6 +215,10 @@ public class Drivetrain extends SubsystemBase {
     SwerveModuleState[] moduleStates = SwerveConstants.DRIVE_KINEMATICS.toSwerveModuleStates(chassisSpeeds, centerOfRotation);
 
     setModuleStates(moduleStates);
+  }
+
+  private double abs(double frontSpeed) {
+    return 0;
   }
 
   public void turnToHeading(double heading, Translation2d centerOfRotation){
@@ -270,15 +279,15 @@ public class Drivetrain extends SubsystemBase {
   }
 
   public void zeroHeading(){
-    gyro.reset();
+    gyro.setYaw(0);
   }
 
   public void setHeading(double heading){
-    //gyro.setYaw(heading);
+    gyro.setYaw(heading);
   }
 
   public double getHeading(){
-    return -Math.IEEEremainder(gyro.getYaw(), 360); //clamp heading between -180 and 180
+    return (Math.IEEEremainder(gyro.getYaw(), 360)); //clamp heading between -180 and 180
   }
 
   public Rotation2d getHeadingRotation2d(){

@@ -60,14 +60,14 @@ public final class Constants {
     public static final double TURN_MOTOR_VCONVERSION = TURN_MOTOR_PCONVERSION / 60.0;
     public static final double KP_TURNING = 0.5;
 
-    public static final double DRIVETRAIN_MAX_SPEED = 2.0; //4.0
-    public static final double DRIVETRAIN_MAX_ANGULAR_SPEED = 2.5 * Math.PI; //3.5
+    public static final double DRIVETRAIN_MAX_SPEED = 1.75; //4.0
+    public static final double DRIVETRAIN_MAX_ANGULAR_SPEED = 1.25 * Math.PI; //3.5
 
     //Teleop constraints
     public static final double TELE_DRIVE_MAX_SPEED = DRIVETRAIN_MAX_SPEED / 1;
     public static final double TELE_DRIVE_MAX_ANGULAR_SPEED = DRIVETRAIN_MAX_ANGULAR_SPEED / 1.75;
-    public static final double TELE_DRIVE_MAX_ACCELERATION = 2; //3
-    public static final double TELE_DRIVE_MAX_ANGULAR_ACCELERATION = 2; //3
+    public static final double TELE_DRIVE_MAX_ACCELERATION = 3; //3
+    public static final double TELE_DRIVE_MAX_ANGULAR_ACCELERATION = 3; //3
 
     //Auton constraints
     public static final double AUTO_DRIVE_MAX_SPEED = DRIVETRAIN_MAX_SPEED / 1.5;
@@ -77,7 +77,7 @@ public final class Constants {
 
     public static final double AUTO_kP_FRONT = 0.4;
     public static final double AUTO_kP_SIDE = 0.4;
-    public static final double AUTO_kP_TURN = 2.4;
+    public static final double AUTO_kP_TURN = 0.5; //2.4
 
     //Swerve Kinematics
     public static final double TRACK_WIDTH = Units.inchesToMeters(18.75);
