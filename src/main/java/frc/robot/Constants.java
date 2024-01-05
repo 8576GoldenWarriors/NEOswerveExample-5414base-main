@@ -49,7 +49,7 @@ public final class Constants {
     public static final double LEFT_FRONT_OFFSET = 330; //change
     public static final double RIGHT_FRONT_OFFSET = 49; //change
     public static final double LEFT_BACK_OFFSET = 275; //change
-    public static final double RIGHT_BACK_OFFSET = 260.5; //change
+    public static final double RIGHT_BACK_OFFSET = 75;//260.5; //change
 
     public static final double WHEEL_DIAMETER = Units.inchesToMeters(3.5); //originally 4 in template
     public static final double DRIVE_MOTOR_GEAR_RATIO = 6.75;
@@ -58,7 +58,7 @@ public final class Constants {
     public static final double TURN_MOTOR_PCONVERSION = 2 * Math.PI / TURN_MOTOR_GEAR_RATIO;
     public static final double DRIVE_MOTOR_VCONVERSION = DRIVE_MOTOR_PCONVERSION / 60.0;
     public static final double TURN_MOTOR_VCONVERSION = TURN_MOTOR_PCONVERSION / 60.0;
-    public static final double KP_TURNING = 0.5;
+    public static final double KP_TURNING = 0.8;
 
     public static final double DRIVETRAIN_MAX_SPEED = 1.75; //4.0
     public static final double DRIVETRAIN_MAX_ANGULAR_SPEED = 1.25 * Math.PI; //3.5
