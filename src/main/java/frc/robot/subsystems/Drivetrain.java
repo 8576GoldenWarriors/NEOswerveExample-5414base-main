@@ -106,12 +106,21 @@ public class Drivetrain extends SubsystemBase {
     SmartDashboard.putNumber("Robot Roll", getRoll());
     SmartDashboard.putString("Pose", getPose().toString());
     SmartDashboard.putString("Angular Speed", new DecimalFormat("#.00").format((rates[2] / 180)) + "pi rad/s");
+    Logger.getInstance().recordOutput("Robot Angle", getHeading());
+    Logger.getInstance().recordOutput("Robot Pitch", getPitch());
+    Logger.getInstance().recordOutput("Robot Roll", getRoll());
+    Logger.getInstance().recordOutput("Pose", getPose().toString());
+    Logger.getInstance().recordOutput("Angular Speed", new DecimalFormat("#.00").format((rates[2] / 180)) + "pi rad/s" );
 
     //new values
     SmartDashboard.putNumber("Left Front Module Velocity", leftFront.getDriveMotorVelocity());
     SmartDashboard.putNumber("Right Front Module Velocity", rightFront.getDriveMotorVelocity());
     SmartDashboard.putNumber("Left Back Module Velocity", leftBack.getDriveMotorVelocity());
     SmartDashboard.putNumber("Right Back Module Velocity", rightBack.getDriveMotorVelocity());
+    Logger.getInstance().recordOutput("Left Front Module Velocity", leftFront.getDriveMotorVelocity());
+    Logger.getInstance().recordOutput("Right Front Module Velocity", rightFront.getDriveMotorVelocity());
+    Logger.getInstance().recordOutput("Left Back Module Velocity", leftBack.getDriveMotorVelocity());
+    Logger.getInstance().recordOutput("Right Back Module Velocity", rightBack.getDriveMotorVelocity().......................................mmmmmmmmmm);
   
 
     Logger.getInstance().recordOutput("Drivetrain/Robot Angle", getHeadingRotation2d().getRadians());
