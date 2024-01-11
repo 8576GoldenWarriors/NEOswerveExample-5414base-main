@@ -120,7 +120,7 @@ public class Drivetrain extends SubsystemBase {
     Logger.getInstance().recordOutput("Left Front Module Velocity", leftFront.getDriveMotorVelocity());
     Logger.getInstance().recordOutput("Right Front Module Velocity", rightFront.getDriveMotorVelocity());
     Logger.getInstance().recordOutput("Left Back Module Velocity", leftBack.getDriveMotorVelocity());
-    Logger.getInstance().recordOutput("Right Back Module Velocity", rightBack.getDriveMotorVelocity().......................................mmmmmmmmmm);
+    Logger.getInstance().recordOutput("Right Back Module Velocity", rightBack.getDriveMotorVelocity());
   
 
     Logger.getInstance().recordOutput("Drivetrain/Robot Angle", getHeadingRotation2d().getRadians());
