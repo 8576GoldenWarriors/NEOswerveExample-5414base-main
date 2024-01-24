@@ -10,21 +10,23 @@ import org.littletonrobotics.junction.Logger;
 
 import com.ctre.phoenix.sensors.Pigeon2;
 //import com.ctre.phoenix.sensors.Pigeon2; OLD GYRO IMPORT
-import com.kauailabs.navx.frc.AHRS;
-
+import com.pathplanner.lib.GeometryUtil;
 
 import edu.wpi.first.math.filter.SlewRateLimiter;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
+import edu.wpi.first.math.geometry.Twist2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.lib.math.GeometryUtils;
 import frc.robot.RobotContainer;
 import frc.robot.Constants.SwerveConstants;
+
 
 public class Drivetrain extends SubsystemBase {
   private SwerveModule leftFront = new SwerveModule(
@@ -153,6 +155,8 @@ public class Drivetrain extends SubsystemBase {
       chassisSpeeds = new ChassisSpeeds(frontSpeed, sideSpeed, turnSpeed);
     }
 
+    correctForDynamics(chassisSpeeds);
+
     SwerveModuleState[] moduleStates = SwerveConstants.DRIVE_KINEMATICS.toSwerveModuleStates(chassisSpeeds, centerOfRotation);
 
     setModuleStates(moduleStates);
@@ -195,7 +199,7 @@ public class Drivetrain extends SubsystemBase {
     }
 
     frontSpeed = RobotContainer.driverController.getLeftTriggerAxis() > 0.5 ? frontSpeed * 0.20 : frontSpeed;
-    sideSpeed = RobotContainer.driverController.getLeftTriggerAxis() > 0.5 ? -sideSpeed * 0.20 : -sideSpeed;
+    sideSpeed = RobotContainer.driverController.getLeftTriggerAxis() > 0.5 ? sideSpeed * 0.20 : sideSpeed;
     turnSpeed = RobotContainer.driverController.getLeftTriggerAxis() > 0.5 ? turnSpeed * 0.20 : turnSpeed;
 
     frontSpeed *= abs(frontSpeed);
@@ -220,6 +224,8 @@ public class Drivetrain extends SubsystemBase {
     else{
       chassisSpeeds = new ChassisSpeeds(frontSpeed, sideSpeed, turnSpeed);
     }
+
+    correctForDynamics(chassisSpeeds);
 
     SwerveModuleState[] moduleStates = SwerveConstants.DRIVE_KINEMATICS.toSwerveModuleStates(chassisSpeeds, centerOfRotation);
 
@@ -252,9 +258,24 @@ public class Drivetrain extends SubsystemBase {
 
     ChassisSpeeds chassisSpeeds = ChassisSpeeds.fromFieldRelativeSpeeds(0, 0, turnSpeed, getHeadingRotation2d());
 
+    correctForDynamics(chassisSpeeds);
+
     SwerveModuleState[] moduleStates = SwerveConstants.DRIVE_KINEMATICS.toSwerveModuleStates(chassisSpeeds, centerOfRotation);
 
     setModuleStates(moduleStates);
+  }
+
+  private static ChassisSpeeds correctForDynamics(ChassisSpeeds originalChassisSpeeds){
+    final double LOOP_TIME = 0.02;
+
+    Pose2d futureRobotPose = new  Pose2d(originalChassisSpeeds.vxMetersPerSecond * LOOP_TIME, originalChassisSpeeds.vyMetersPerSecond * LOOP_TIME, Rotation2d.fromRadians(originalChassisSpeeds.omegaRadiansPerSecond * LOOP_TIME));
+    Twist2d twistForPose = GeometryUtils.log(futureRobotPose);
+        ChassisSpeeds updatedSpeeds =
+            new ChassisSpeeds(
+                twistForPose.dx / LOOP_TIME,
+                twistForPose.dy / LOOP_TIME,
+                twistForPose.dtheta / LOOP_TIME);
+        return updatedSpeeds;
   }
   
   public Pose2d getPose(){
@@ -288,7 +309,7 @@ public class Drivetrain extends SubsystemBase {
   }
 
   public void zeroHeading(){
-    gyro.setYaw(0);
+    gyro.setYaw(-0);
   }
 
   public void setHeading(double heading){

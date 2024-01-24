@@ -58,26 +58,26 @@ public final class Constants {
     public static final double TURN_MOTOR_PCONVERSION = 2 * Math.PI / TURN_MOTOR_GEAR_RATIO;
     public static final double DRIVE_MOTOR_VCONVERSION = DRIVE_MOTOR_PCONVERSION / 60.0;
     public static final double TURN_MOTOR_VCONVERSION = TURN_MOTOR_PCONVERSION / 60.0;
-    public static final double KP_TURNING = 0.6;
+    public static final double KP_TURNING = 0.575;
 
     public static final double DRIVETRAIN_MAX_SPEED = 1.75; //4.0
-    public static final double DRIVETRAIN_MAX_ANGULAR_SPEED = 1.25 * Math.PI; //3.5
+    public static final double DRIVETRAIN_MAX_ANGULAR_SPEED = 1 * Math.PI; //3.5//
 
     //Teleop constraints
     public static final double TELE_DRIVE_MAX_SPEED = DRIVETRAIN_MAX_SPEED / 1;
-    public static final double TELE_DRIVE_MAX_ANGULAR_SPEED = DRIVETRAIN_MAX_ANGULAR_SPEED / 1.75;
-    public static final double TELE_DRIVE_MAX_ACCELERATION = 3; //3
-    public static final double TELE_DRIVE_MAX_ANGULAR_ACCELERATION = 3; //3
+    public static final double TELE_DRIVE_MAX_ANGULAR_SPEED = DRIVETRAIN_MAX_ANGULAR_SPEED / 1.75; //2.75
+    public static final double TELE_DRIVE_MAX_ACCELERATION = 2; //3
+    public static final double TELE_DRIVE_MAX_ANGULAR_ACCELERATION = 12;
 
     //Auton constraints
     public static final double AUTO_DRIVE_MAX_SPEED = DRIVETRAIN_MAX_SPEED / 1.5;
     public static final double AUTO_DRIVE_MAX_ANGULAR_SPEED = DRIVETRAIN_MAX_ANGULAR_SPEED / 2.0;
-    public static final double AUTO_DRIVE_MAX_ACCELERATION = 3;
-    public static final double AUTO_DRIVE_MAX_ANGULAR_ACCELERATION = Math.PI;
+    public static final double AUTO_DRIVE_MAX_ACCELERATION = 2.5; //2, 3
+    public static final double AUTO_DRIVE_MAX_ANGULAR_ACCELERATION = Math.PI;//Math.PI;
 
-    public static final double AUTO_kP_FRONT = 0.4;
-    public static final double AUTO_kP_SIDE = 0.4;
-    public static final double AUTO_kP_TURN = 0.5; //2.4
+    //public static final double AUTO_kP_FRONT = 0.3;
+    //public static final double AUTO_kP_SIDE = 0.4;
+    //public static final double AUTO_kP_TURN = 0.3;//0.48533; //2.4
 
     //Swerve Kinematics
     public static final double TRACK_WIDTH = Units.inchesToMeters(18.75);
@@ -89,8 +89,8 @@ public final class Constants {
         new Translation2d(-WHEEL_BASE / 2, -TRACK_WIDTH / 2)
     );
 
-    public static final double kS_PERCENT = 0.035;
-    public static final double kP_PERCENT = 0.009;
+    public static final double kS_PERCENT = 0.0025; //0.0035
+    public static final double kP_PERCENT = 0.0009; // 0.0009
 
     //Odometry
     public static final Vector<N3> ODOMETRY_STD_DEV = VecBuilder.fill(0.02, 0.02, 0.005);
